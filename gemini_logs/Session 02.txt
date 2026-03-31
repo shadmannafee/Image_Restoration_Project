@@ -1,0 +1,19 @@
+Classical Restoration & Environment Optimization
+========================================
+In this phase, I focused on establishing a mathematical baseline for image deblurring using Wiener Deconvolution. My workflow transitioned from an initial failure to a stable, reproducible pipeline through a combination of manual experimentation and AI-guided troubleshooting.
+========================================
+Technical Implementation & AI CollaborationInitially, my restoration produced severe ringing artifacts (Figure 1), dropping the PSNR to 15.74 dB. I consulted Gemini to analyze these visual distortions, and we identified that my 15px Point Spread Function (PSF) was too aggressive for the COCO dataset's motion blur. Based on these insights, I pivoted to an experimental branch to perform a parameter sweep. I followed the recommendation to reduce the PSF to 5px and increase the regularization factor (K
+) to 0.1. These changes successfully stabilized the frequency response, resulting in a cleaner image with a PSNR of 20.82 dB (Figure 2).
+========================================
+Environment Troubleshooting
+
+During development, I encountered a critical environment crash in VS Code due to PEP 668 (externally-managed-environment errors) and path nesting issues. I used Gemini as a troubleshooting guide to:
+
+1. Identify the directory mismatch between my terminal root and the script location.
+
+2. Implement a Python Virtual Environment (venv) to bypass system-level installation restrictions on macOS.
+
+3. Synchronize my .gitignore to exclude over 20,000 library files, ensuring my repository remained professional and compliant with COMP 6001 standards.
+=========================================
+Conclusion
+This session proved that while classical filters like the Wiener filter have mathematical limitations, their performance can be maximized through careful parameter tuning. I have now merged these improvements into my main feature branch. Having established this 20.82 dB baseline, I am prepared to move into Task 4, where I will evaluate if this classical restoration actually improves the mAP (mean Average Precision) of my YOLO object detection model.
