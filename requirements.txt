@@ -1,0 +1,15 @@
+# Image Processing & Math
+opencv-python
+numpy
+matplotlib
+scikit-image
+scipy
+pandas
+
+# Deep Learning (Mac Silicon Optimized)
+torch
+torchvision
+
+# Object Detection & COCO Utilities
+ultralytics
+pycocotools
