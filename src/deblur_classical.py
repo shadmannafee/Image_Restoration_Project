@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import os
 from skimage.metrics import peak_signal_noise_ratio as psnr
 
-def wiener_filter(img, kernel, K=0.01):
+def wiener_filter(img, kernel, K=0.1):
     """
     Applies a Wiener filter to an image to reverse motion blur.
     K is the noise-to-signal ratio; higher K reduces noise but adds blur.
@@ -26,7 +26,7 @@ def process_and_compare(image_id):
     os.makedirs(output_dir, exist_ok=True)
 
     if not os.path.exists(blurred_path) or not os.path.exists(sharp_path):
-        print(f"⚠️ Skipping {image_id}: Files not found.")
+        print(f"Skipping {image_id}: Files not found.")
         return
 
     # Load images in grayscale for classical frequency analysis
@@ -35,8 +35,8 @@ def process_and_compare(image_id):
 
     # Point Spread Function (PSF)
     # This represents a 15-pixel horizontal motion blur
-    psf = np.zeros((15, 15))
-    psf[7, :] = 1.0 
+    psf = np.zeros((5, 5))
+    psf[2, :] = 1.0 
     psf /= psf.sum()
 
     # Apply the Restoration
