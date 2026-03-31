@@ -3,6 +3,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import os
 from skimage.metrics import peak_signal_noise_ratio as psnr
+from skimage.metrics import structural_similarity as ssim
 
 def wiener_filter(img, kernel, K=0.1):
     """
@@ -45,10 +46,19 @@ def process_and_compare(image_id):
     # Calculate Metrics 
     score_blurred = psnr(img_sharp, img_blurred)
     score_restored = psnr(img_sharp, img_restored)
+    ssim_blurred = ssim(img_sharp, img_blurred, data_range=255)
+    ssim_restored = ssim(img_sharp, img_restored, data_range=255)
+
 
     print(f"\nResults for {image_id}:")
     print(f"  - PSNR (Blurred): {score_blurred:.2f} dB")
     print(f"  - PSNR (Restored): {score_restored:.2f} dB")
+
+    print(f"  - SSIM (Blurred): {ssim_blurred:.4f}")
+    print(f"  - SSIM (Restored): {ssim_restored:.4f}")
+    
+    plt.subplot(132), plt.imshow(img_restored, cmap='gray')
+    plt.title(f'Wiener Restored (SSIM: {ssim_restored:.4f})')
 
     # Reult can be used for task 4
     cv2.imwrite(f'{output_dir}/{image_id}_restored.jpg', img_restored)
