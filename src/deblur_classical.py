@@ -57,7 +57,7 @@ def process_and_compare(image_id, show_plot=False):
     if show_plot:
         plt.figure(figsize=(15, 5))
         plt.subplot(131), plt.imshow(img_blurred, cmap='gray'), plt.title(f'Blurred ({score_blurred:.2f}dB)')
-        plt.subplot(132), plt.imshow(img_restored, cmap='gray'), plt.title(f'Restored (SSIM: {ssim_r:.4f})')
+        plt.subplot(132), plt.imshow(img_restored, cmap='gray'), plt.title(f'Restored (SSIM: {ssim_restored:.4f})')
         plt.subplot(133), plt.imshow(img_sharp, cmap='gray'), plt.title('Sharp')
         plt.tight_layout()
         plt.show()
