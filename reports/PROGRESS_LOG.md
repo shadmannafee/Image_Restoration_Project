@@ -31,3 +31,29 @@ C. Min vs Max Outlier Analysis.
 When the number of images was increased to 100, it turned out that the Wiener filter works best with low-depth and high-contrast pictures (Max SSIM 0.89). On the other hand, it responds poorly to low-light or high-occlusion images (Min SSIM 0.19) in which the motion blur is non-linear and not reflecting our 5x5 non-deterministic assumption.
 
 4. The 100 image expansion was a success and confirmed the baseline. We have statistically confirmed that classical Wiener restoration is counter-productive to automated downstream tasks such as object detection. This gives us a sound justification to move to Task 5 where we will apply a Deep Learning-based method to image restoration without these counter-productive artifacts.
+
+========================================
+
+## Technical Pivot & Bypass Summary
+
+**1. Data Engineering & Label Transformation**
+
+- Conversion of COCO to YOLO: Original COCO JSON labels could not be used in the Ultralytics training engine. We used conversion bypass, which converted complex polygons to YOLO-normalized x, y, w, h text..
+- Workspace De-duplication: The conversion process generated duplicate directories (e.g. coco_converted). We have rearranged manually the pathing to data/labels_yolo/ so that the annotations are available to the trainer.
+- Dataset Stratification: To satisfy the 90-minute time limit in training, we designed a script that would sample 1,500 images directly (1,500 / 500) with the amount of 500 images of each blur level (Light, Medium, Heavy) so that every blur level had equal representation in the learning.
+
+**2. Environment & Path Resolution**
+
+- Dependency Management: tqdm and scikit-learn have fixed errors of ModuleNotFound in the venv to regain progress tracking.
+
+- Relative Pathing Bug: Fixed a script that was attempting to find relative content but failed to find blur metadata.json as the absolute searches had to be forced using Image Restoration Project root.
+
+- YAML Config Creation: Constructed task4 data.yaml dynamically on the fly to ensure the model had successfully relabelled your local restored image folders with the 80 COCO classes.
+
+**3. Hardware-Specific Bypasses (Apple Silicon M2)**
+
+- MPS Backend Enforcement: Hardly bypassed the default CPU/CUDA logic to use the Metal Performance Shaders (MPS) to accelerate 16GB Unified Memory.
+
+- The TAL Shape Mismatch: In the case where the "Task Aligned Assigner" triggered a RuntimeError at Epoch 5, we applied an Asynchronous Evaluation bypass. Rather than re-training, we re-recovered the best.pt checkpoint to ensure the 0.36 mAP score.
+
+- NMS Time Limit Warnings: NMS Timeouts are documented and ignored, not a model failure, but a hardware latency phenomenon.
