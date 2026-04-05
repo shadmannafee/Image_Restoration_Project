@@ -55,10 +55,10 @@ def process_and_compare(image_id, show_plot=False):
 
 if __name__ == "__main__":
     blurred_folder = 'data/val2017_blurred_deterministic'
-    all_images = sorted([f.replace('.jpg', '') for f in os.listdir(blurred_folder) if f.endswith('.jpg')])[:20]
+    all_images = sorted([f.replace('.jpg', '') for f in os.listdir(blurred_folder) if f.endswith('.jpg')])[:100]
     
     results = []
-    print(f"🚀 Processing {len(all_images)} images for Task 2 -")
+    print(f"🔁 Processing {len(all_images)} images for Task 2 -")
 
     for i, img_id in enumerate(all_images):
         metrics = process_and_compare(img_id, show_plot=(i == 0))
@@ -70,7 +70,7 @@ if __name__ == "__main__":
                 "SSIM_Blurred": metrics[2],
                 "SSIM_Restored": metrics[3]
             })
-            print(f"[{i+1}/20] {img_id} processed.")
+            print(f"[{i+1}/100] {img_id} processed.")
 
     df = pd.DataFrame(results)
     df = df.round({"PSNR_Blurred": 2, "PSNR_Restored": 2, "SSIM_Blurred": 4, "SSIM_Restored": 4})

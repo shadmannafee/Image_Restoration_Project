@@ -1,0 +1,2 @@
+Intent: Scale classical restoration baseline to 100 images to ensure statistical significance for Task 3 and Task 5 comparisons.
+AI Contribution: Gemini provided the logic for scaling the batch processing and interpreted the inverse relationship between visual sharpness and mathematical PSNR/SSIM metrics.
