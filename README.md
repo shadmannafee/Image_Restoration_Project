@@ -15,7 +15,7 @@ To ensure data integrity, the **COCO 2017** dataset was acquired via the termina
 
 ### **Local Installation**
 
-1. Clone the repo: `git clone [URL]`
+1. Clone the repo: `https://github.com/shadmannafee/Image_Restoration_Project.git`
 2. Install dependencies: `pip install -r requirements.txt`
 3. The /data directory is not tracked by Git. Please download the COCO datasets manually to this folder before running scripts.
 
