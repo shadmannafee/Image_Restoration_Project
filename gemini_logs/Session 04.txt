@@ -1,2 +1,26 @@
 Intent: Scale classical restoration baseline to 100 images to ensure statistical significance for Task 3 and Task 5 comparisons.
 AI Contribution: Gemini provided the logic for scaling the batch processing and interpreted the inverse relationship between visual sharpness and mathematical PSNR/SSIM metrics.
+
+======
+
+Prompt: I have COCO JSON labels, but YOLO needs .txt files. How do I convert them and sample exactly 500 images per blur tier for my M2?
+
+AI Contribution: Designed a conversion script to map COCO's [x, y, w, h] bounding boxes to YOLO’s normalized format.
+
+Architected a "Stratified Sampler" that parsed blur_metadata.json to ensure a mathematically balanced dataset (500 Light, 500 Medium, 500 Heavy).
+
+Automated the creation of the data/task4_data.yaml file to point to the new directory structure.
+
+output: Created a reproducible 1,500-image training set that prevented the model from becoming biased toward a specific blur intensity.
+
+=====================
+
+Prompt: My training is slow and sometimes crashes on my Mac. How do I use the M2 GPU safely?
+
+AI Contribution: Configured the training script to utilize device='mps' (Metal Performance Shaders) for hardware acceleration.
+
+Recommended a reduced Batch Size of 16 and imgsz=640 to stay within the 16GB Unified Memory limit of the MacBook Air.
+
+Debugged an "MPS Shape Mismatch" error by suggesting a fallback to cpu for specific validation metrics that are not yet fully supported on Apple Silicon.
+
+output:  Reduced training time per epoch from ~12 minutes (CPU) to ~1.5 minutes (MPS), making the 90-minute assignment constraint feasible.

@@ -1,0 +1,40 @@
+1. Prompt: I need a Python script to calculate PSNR and SSIM for 300 images. It needs to be stratified across light, medium, and heavy blur using blur_metadata.json.
+
+AI Contribution:  Provided a modular script using scikit-image and OpenCV.
+
+Debugged a TypeError: 'int' object is not subscriptable by analyzing the nested structure of blur_metadata.json (specifically the transformations key).
+Implemented logic to resize original images to match restored dimensions to prevent runtime errors during metric calculation.
+
+Outcome: Successfully generated PSNR/SSIM scores showing a structural similarity (SSIM) drop from 0.57 (Light) to 0.51 (Heavy).
+
+==========
+
+2. Prompt: How do I visualize how restoration changes confidence distributions? The brief asks for a histogram.
+
+AI Contribution:  Identified a TypeError: 'DetMetrics' object is not iterable when trying to loop through model.val() results.
+
+- Proposed a shift to model.predict(stream=True) to extract raw confidence tensors from the MPS (Metal Performance Shaders) backend.
+
+- Generated a Matplotlib script to create a "Density Histogram" comparing the Blurred Baseline vs. the Restored Fine-tuned model.
+
+Outcome: Produced confidence_comparison_hd.png, visualizing the "Rightward Shift" in model certainty.
+
+3. Prompt: The training crashed after 5 epochs. Should I restart, or can I use what result I have?
+
+AI Contribution: Advised on a "Checkpoint Analysis" strategy: instead of restarting, we evaluated best.pt from Epoch 5.
+
+Confirmed that a mAP of 0.3604 at Epoch 5 was a significant enough improvement (+123%) over the baseline (0.1610) to meet High Distinction criteria.
+
+Guided the update of the final_eval.py script to specifically point to the partial training weights.
+
+Outcome: Saved 6 hours of re-training time while still achieving a statistically valid "Restored" domain result for the final report.
+
+4. Prompt: How do I properly credit YOLO and COCO? 
+
+AI Contribution: Clarified the distinction between the MIT License and the AGPL-3.0 License (for the Ultralytics YOLO framework).
+
+Provided the correct legal attribution for the COCO 2017 Dataset (CC BY 4.0).
+
+Drafted the "Third-Party Licenses" section to ensure professional transparency.
+
+Outcome: Established a legally compliant repository that meets the "Ethical Reflection" requirement of the project brief.
